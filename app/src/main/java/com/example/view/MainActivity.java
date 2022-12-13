@@ -3,6 +3,8 @@ package com.example.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -67,7 +69,23 @@ public class MainActivity extends AppCompatActivity  {
         RecyclerView recyclerView = new RecyclerView(this);
 
 
+        //将目标View(targetView)在100ms内从原始位置向右移动100像素
+        ObjectAnimator.ofFloat(recyclerView,"translationX",0,100).setDuration(100).start();
 
+
+        final int startX = 0;
+        final int deltaX = 100;
+        ValueAnimator animator = ValueAnimator.ofInt(0,1).setDuration(1000);
+        //在动画每一帧到来的时候获取动画的完成的比例
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float fraction = animator.getAnimatedFraction();
+                //根据这个比例计算出View所要滑动的距离
+                recyclerView.scrollTo(startX + (int)(deltaX * fraction) , 0);
+            }
+        });
+        animator.start();
     }
 
     @Override

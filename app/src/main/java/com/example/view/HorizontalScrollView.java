@@ -1,5 +1,6 @@
 package com.example.view;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -39,4 +40,6 @@ public class HorizontalScrollView extends ViewGroup {
         return super.onTouchEvent(event);
 
     }
+
+
 }
