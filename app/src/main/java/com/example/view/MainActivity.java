@@ -1,6 +1,7 @@
 package com.example.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
+import android.widget.Scroller;
+
+import java.util.concurrent.RecursiveTask;
 
 public class MainActivity extends AppCompatActivity  {
     GestureDetector gestureDetector;
@@ -58,6 +62,12 @@ public class MainActivity extends AppCompatActivity  {
         });
         //2.解决长按屏幕无法拖动的现象
         gestureDetector.setIsLongpressEnabled(false);
+
+
+        RecyclerView recyclerView = new RecyclerView(this);
+
+
+
     }
 
     @Override
@@ -81,5 +91,19 @@ public class MainActivity extends AppCompatActivity  {
 
 
     }
+
+
+    Scroller scroller = new Scroller(this);
+
+    //缓慢移动到指定位置
+    private void smoothScrollTo(int destX , int destY){
+        int scrollX = getCurrentFocus().getScrollX();
+        int delta = destX - scrollX;
+        //1000ms内滑动到destX，效果就是慢慢滑动
+        scroller.startScroll(scrollX,0,delta,0,1000);
+
+    }
+
+
 
 }
