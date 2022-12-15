@@ -2,15 +2,18 @@ package com.example.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
+import android.view.Window;
 import android.widget.Scroller;
 
 import java.util.concurrent.RecursiveTask;
@@ -25,7 +28,8 @@ public class MainActivity extends AppCompatActivity  {
         int number = ViewConfiguration.get(getApplicationContext()).getScaledTouchSlop();
         Log.d("Ning app_MainActivity","TouchSLopo : "+number);
 
-
+        //Activity activity = new Activity();
+        //Window
         //1.创建GestureDetector对象
         gestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
