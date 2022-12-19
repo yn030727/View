@@ -2,6 +2,8 @@ package com.example.slidingconflict;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,5 +68,49 @@ public class HorizontalScrollViewEx extends ViewGroup {
     private void init(){
         scroller = new Scroller(getContext());
         mVelocityTracker = VelocityTracker.obtain();
+    }
+
+    //重写方法，修改其中ACTION_MOVE的条件
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean intercepted = false ;
+        int x = (int)ev.getX();
+        int y = (int)ev.getY();
+
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:{
+                intercepted = false;
+                //这一句话是用来优化滑动体验而加入的
+                if(!scroller.isFinished()){
+                    scroller.abortAnimation();
+                    intercepted = true;
+                }
+                break;
+            }
+            case MotionEvent.ACTION_MOVE:{
+                //mLastXIntercept上次滑动到达的坐标
+                //当前坐标减去上一次获得两次之间的距离差
+                int deltaX = x - mLastXIntercept;
+                int deltaY = y - mLastYIntercept;
+                if(Math.abs(deltaX) > Math.abs(deltaY)){
+                    //如果水平距离长，那么就截断，交给父容器处理
+                    intercepted = true;
+                }else{
+                    //如果垂直距离长，交给子元素的ListView处理
+                    intercepted = false;
+                }
+                break;
+            }
+            case MotionEvent.ACTION_UP:{
+                intercepted = false;
+                break;
+            }
+        }
+        Log.d(TAG , "intercepted=" + intercepted);
+        mLastX = x;
+        mLastY = y;
+        mLastXIntercept = x;
+        mLastYIntercept = y;
+        return intercepted;
     }
 }
