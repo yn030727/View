@@ -60,7 +60,7 @@ public class DemoActivity extends Activity {
         for(int i = 0 ; i < 50 ; i++){
             datas.add("name " + i);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.content_list_item,datas);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.content_list_item,R.id.name,datas);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
