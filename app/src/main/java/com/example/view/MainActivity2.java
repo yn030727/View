@@ -2,6 +2,7 @@ package com.example.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,8 @@ public class MainActivity2 extends AppCompatActivity {
 
 
         view.layout(1,1,1,1);
-
+        view.draw(new Canvas());
+        view.setWillNotDraw(true);
 
     }
 
