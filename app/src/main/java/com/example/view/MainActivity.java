@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import java.util.concurrent.RecursiveTask;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        LinearLayout linearLayout = new LinearLayout(this);
 
 
 
