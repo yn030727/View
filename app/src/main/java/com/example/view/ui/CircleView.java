@@ -1,6 +1,7 @@
 package com.example.view.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.example.view.R;
 
 public class CircleView extends View {
     //定义变量
@@ -20,17 +23,17 @@ public class CircleView extends View {
     }
 
     public CircleView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context,attrs,0);
     }
 
     public CircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    public CircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        //首先加载自定义属性集合CircleView
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleView);
+        //接着解析CircleView集合中的circle_color属性(如果没有指定红色为默认值)
+        mColor = a.getColor(R.styleable.CircleView_circle_color,Color.RED);
+        //recycle来首先资源
+        a.recycle();
         init();
     }
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <!--    记得布局文件中的schemas声明-->
 
     <com.example.view.ui.CircleView
         android:id="@+id/circleView1"
@@ -12,7 +13,8 @@
         android:layout_height="100dp"
         android:layout_margin="20dp"
         android:padding="20dp"
-        android:background="#000000"/>
+        android:background="#000000"
+        app:circle_color="#d35295"/>
 
 
 </LinearLayout>
