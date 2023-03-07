@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -27,8 +28,8 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LinearLayout linearLayout = new LinearLayout(this);
-
-
+        View view = new View(this);
+        view.scrollTo(1,1);
 
 
 
