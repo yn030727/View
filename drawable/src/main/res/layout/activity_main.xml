@@ -49,11 +49,26 @@
 <!--        app:layout_constraintStart_toStartOf="@+id/imageView2"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/imageView2"-->
 <!--        app:srcCompat="@drawable/clip_drawable" />-->
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Button"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ListView
+        android:id="@+id/list1"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:layoutAnimation="@anim/anim_layout"
+        android:background="#fff4f7f9"
+        android:cacheColorHint="#000000"
+        android:divider="#dddbdb"
+        android:dividerHeight="1.0px"
+        android:listSelector="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
