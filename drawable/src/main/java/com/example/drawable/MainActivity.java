@@ -2,6 +2,8 @@ package com.example.drawable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -79,11 +81,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mButton.setBackgroundResource(R.drawable.animation_drawable);
 //        AnimationDrawable drawable = (AnimationDrawable) mButton.getBackground();
 //        drawable.start();
-
-        ListView listView = (ListView) findViewById(R.id.list1);
-        String[] data = {"apply","banana","sfaf","sfafaw","fawerwe","24","fwefa","fawfawf"};
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this , android.R.layout.simple_list_item_1,data);
-        listView.setAdapter(arrayAdapter);
+//
+//        ListView listView = (ListView) findViewById(R.id.list1);
+//        String[] data = {"apply","banana","sfaf","sfafaw","fawerwe","24","fwefa","fawfawf"};
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this , android.R.layout.simple_list_item_1,data);
+//        listView.setAdapter(arrayAdapter);
 //        Animation animation = AnimationUtils.loadAnimation(this , R.anim.anim_item);
 //        LayoutAnimationController controller = new LayoutAnimationController(animation);
 //        controller.setDelay(0.5f);
@@ -93,13 +95,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        Object mObject = new Object();
 //        ObjectAnimator.ofFloat(mObject , "translationY" , -35).start();
 
-        ValueAnimator colorAnim = ObjectAnimator.ofInt(listView , "backgroundColor" , 0xFFFF8080 , 0xFF8080FF);
-        colorAnim.setDuration(3000);
-        colorAnim.setEvaluator(new ArgbEvaluator());
-        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
-        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
-        colorAnim.start();
+//        ValueAnimator colorAnim = ObjectAnimator.ofInt(listView , "backgroundColor" , 0xFFFF8080 , 0xFF8080FF);
+//        colorAnim.setDuration(3000);
+//        colorAnim.setEvaluator(new ArgbEvaluator());
+//        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+//        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+//        colorAnim.start();
+//
+//
+//        AnimatorSet set = new AnimatorSet();
+//        set.playTogether(
+//                ObjectAnimator.ofFloat(listView , "rotationX" , 0 ,360),
+//                ObjectAnimator.ofFloat(listView , "rotationY" , 0 ,180),
+//                ObjectAnimator.ofFloat(listView , "rotation" , 0 ,-90),
+//                ObjectAnimator.ofFloat(listView , "translationX" , 0 ,90),
+//                ObjectAnimator.ofFloat(listView , "translationY" , 0 ,90),
+//                ObjectAnimator.ofFloat(listView , "scaleX" , 1 ,1.5f),
+//                ObjectAnimator.ofFloat(listView , "scaleY" , 1 ,0.5f),
+//                ObjectAnimator.ofFloat(listView , "alpha" , 1 ,0.25f,1)
+//        );
+//        set.setDuration(5 * 1000).start();
 
+        Button button = (Button)findViewById(R.id.button);
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator( button.getContext(), R.animator.donghua1);
+        set.setTarget(button);
+        set.start();
+        Log.d("Ning","21");
     }
 
     @Override
