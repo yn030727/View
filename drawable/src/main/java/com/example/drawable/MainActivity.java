@@ -2,6 +2,9 @@ package com.example.drawable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ClipDrawable;
@@ -24,7 +27,7 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "ObjectAnimatorBinding"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +89,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        controller.setDelay(0.5f);
 //        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
 //        listView.setLayoutAnimation(controller);
+
+//        Object mObject = new Object();
+//        ObjectAnimator.ofFloat(mObject , "translationY" , -35).start();
+
+        ValueAnimator colorAnim = ObjectAnimator.ofInt(listView , "backgroundColor" , 0xFFFF8080 , 0xFF8080FF);
+        colorAnim.setDuration(3000);
+        colorAnim.setEvaluator(new ArgbEvaluator());
+        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+        colorAnim.start();
 
     }
 
