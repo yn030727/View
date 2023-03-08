@@ -3,8 +3,10 @@ package com.example.drawable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
+import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -21,6 +23,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.view.animation.LinearInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +32,7 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Button button;
     @SuppressLint({"MissingInflatedId", "ObjectAnimatorBinding"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,18 +120,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        );
 //        set.setDuration(5 * 1000).start();
 
-        Button button = (Button)findViewById(R.id.button);
+        button = (Button)findViewById(R.id.button);
         AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator( button.getContext(), R.animator.donghua1);
         set.setTarget(button);
-        set.start();
+        button.setOnClickListener(this);
         Log.d("Ning","21");
+
+    }
+
+    private void performAnimate(){
+        ViewWrapper wrapper = new ViewWrapper(button);
+        ObjectAnimator.ofInt(wrapper , "width", 500).setDuration(5000).start();;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-//            case R.id.button:
-//                Log.d("Ning","click");
+            case R.id.button:
+                performAnimate1(button , button.getWidth() , 500);
+                Log.d("Ning","click");
         }
     }
+
+    private static class ViewWrapper{
+        private View mTarget;
+
+        public ViewWrapper(View target){
+            mTarget = target;
+        }
+
+        public int getWidth(){
+            return mTarget.getLayoutParams().width;
+        }
+
+        public void setWidth(int width){
+            mTarget.getLayoutParams().width = width;
+            mTarget.requestLayout();;
+        }
+    }
+
+
+    private void performAnimate1(final View target , final int start , final int end){
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(1, 100);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            //持有一个IntEvaluator对象，方便下面估值的时候调用。
+            private IntEvaluator mEvaluator = new IntEvaluator();
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                //获取当前动画的进度值，整形1~100之间。
+                int currentValue = (Integer)animation.getAnimatedValue();
+                Log.d("Ning", "onAnimationUpdate: " + currentValue);
+
+                //获取当前进度占整个动画过程的比例、浮点型，0~1之间
+                float fraction = animation.getAnimatedFraction();
+
+                //直接调用整形估值器，通过比例计算出宽度，然后再设给Button
+                target.getLayoutParams().width = mEvaluator.evaluate(fraction , start , end);
+                target.requestLayout();;
+            }
+        });
+
+        valueAnimator.setDuration(5000).start();
+    }
+
+
 }
