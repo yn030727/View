@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button.setOnClickListener(this);
         Log.d("Ning","21");
 
+
     }
 
     private void performAnimate(){
