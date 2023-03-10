@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -29,12 +30,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void initView(){
+        //初始化View的步骤
         create_button = (Button)findViewById(R.id.create_button);
         mWindowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
     }
-    
+
     @Override
     public void onClick(View v) {
+        //将Window显示
         if(v == create_button){
             //将一个Button添加到屏幕坐标为(100 ，300)的位置上。
 
@@ -47,28 +50,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
             mLayoutParams.x = 100;
             mLayoutParams.y = 300;
-
+            //移动Touch事件
+            mFloatingButton.setOnTouchListener(this);
             mWindowManager.addView(mFloatingButton , mLayoutParams);
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        Log.d("Ning","onTouch");
         int rawX = (int)event.getX();
         int rawY = (int)event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE: {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
                 mLayoutParams.x = rawX;
                 mLayoutParams.y = rawY;
                 mWindowManager.updateViewLayout(mFloatingButton, mLayoutParams);
                 break;
             }
-            case MotionEvent.ACTION_UP:
-                break;
             default:
                 break;
         }
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     protected void onDestroy() {
+        //删除Window，就是删除其中的View。
         try {
             mWindowManager.removeView(mFloatingButton);
         }catch (IllegalArgumentException e){
