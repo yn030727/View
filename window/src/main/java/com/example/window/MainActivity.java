@@ -1,17 +1,28 @@
 package com.example.window;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.InputQueue;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
@@ -27,12 +38,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setContentView(R.layout.activity_main);
         initView();
         create_button.setOnClickListener(this);
+
     }
 
     public void initView(){
         //初始化View的步骤
         create_button = (Button)findViewById(R.id.create_button);
         mWindowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+
+
     }
 
     @Override
@@ -54,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             mFloatingButton.setOnTouchListener(this);
             mWindowManager.addView(mFloatingButton , mLayoutParams);
         }
+
     }
 
     @Override
@@ -75,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
         return false;
     }
-
+    
+    
+    
     @Override
     protected void onDestroy() {
         //删除Window，就是删除其中的View。
