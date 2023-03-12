@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
 
@@ -41,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         create_button.setOnClickListener(this);
 
         Activity activity = new Activity();
-
-
+        Dialog dialog = new Dialog(this);
     }
 
     public void initView(){
