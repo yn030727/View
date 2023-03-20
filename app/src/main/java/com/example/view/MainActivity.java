@@ -1,5 +1,7 @@
 package com.example.view;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -7,7 +9,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -30,8 +36,6 @@ public class MainActivity extends AppCompatActivity  {
         LinearLayout linearLayout = new LinearLayout(this);
         View view = new View(this);
         view.scrollTo(1,1);
-
-
 
 
 //        //1.输出最短滑动距离
