@@ -2,7 +2,11 @@ package com.example.handler1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.IntentService;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String TAG = "Ning";
+
+        DownloadFilesTask dt = new DownloadFilesTask();
+        dt.execute();
 
 
         mBooleanThreadLocal.set(true);
@@ -31,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
         new Thread("Thread#2"){
             @Override
             public void run() {
-                Log.d(TAG, "[Thread#2]mBooleanThreadLocal = " + mBooleanThreadLocal.get());
+                Looper.prepare();
+                Handler handler = new Handler();
+                Looper.loop();
             }
         }.start();
 
