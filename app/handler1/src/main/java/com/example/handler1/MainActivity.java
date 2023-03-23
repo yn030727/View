@@ -20,6 +20,9 @@ import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +53,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public String haskKeyForDisk(String key){
+        String cacheKey;
+        try {
+            final MessageDigest mDigest = MessageDigest.getInstance("MD5");
+            mDigest.update(key.getBytes());
+            cacheKey = bytesToHexString(mDigest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            cacheKey = String.valueOf(key.hashCode());
+        }
+        return cacheKey;
+    }
+
+    private String bytesToHexString(byte[] bytes){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0 ; i < bytes.length ; i++){
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if(hex.length() == 1){
+                sb.append('0');
+            }
+            sb.append(hex);
+        }
+        return sb.toString();
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +93,13 @@ public class MainActivity extends AppCompatActivity {
         startService(service);
         Log.d("Ning","2");
 
+        String imageURl = "https://img-my.csdn.net/uploads/201309/01/1378037235_7476.jpg";
+        String key = haskKeyForDisk(imageURl);
+        try {
+            DiskLruCache.Editor editor = mDiskLruCache.edit(key);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //        String TAG = "Ning";
 //
@@ -109,8 +145,35 @@ public class MainActivity extends AppCompatActivity {
 //        };
 
 
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String imageUrl = "https://img-my.csdn.net/uploads/201309/01/1378037235_7476.jpg";
+                    String key = haskKeyForDisk(imageUrl);
+                    DiskLruCache.Editor editor = mDiskLruCache.edit(key);
+                    if(editor != null){
+                        OutputStream outputStream = editor.newOutputStream(0);
+                        if(downloadUrlToStream(imageUrl,outputStream)){
+                            editor.commit();
+                        }else{
+                            editor.abort();
+                        }
+                    }
+                    mDiskLruCache.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
     }
 
+
+    public boolean downloadUrlToStream(String urlString , OutputStream outputStream){
+        return false;
+    }
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res , int resId , int reqWidth , int reqHeight){
         final BitmapFactory.Options options = new BitmapFactory.Options();
