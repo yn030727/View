@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.ListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+
+import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         ImageLoaderBaseAdapter adapter = new ImageLoaderBaseAdapter(this);
         //listview设置adapter
         lsv_image_loader.setAdapter(adapter);
+
     }
 
 
@@ -109,4 +114,28 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.clearMemoryCache();
         super.onDestroy();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    //    private AssetManager mAssetManager;
+//    private Resources mResources;
+//    private Resources.Theme mTheme;
+//    protected void loadResources(){
+//        try{
+ //            AssetManager assetManager = AssetManager.class.newInstance();
+//            Method addAssetPath = assetManager.getClass().getMethod("addAssetPath",String.class);
+//            addAssetPath.invoke(assetManager , mDexPath);
+//            mAssetManager = assetManager;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        Resources superRes = super.getResources();
+//        mResources = new Resources(mAssetManager , superRes.getDisplayMetrics() , superRes.getConfiguration());
+//        mTheme = mResources.newTheme();
+//        mTheme.setTo(super.getTheme());
+//    }
 }
