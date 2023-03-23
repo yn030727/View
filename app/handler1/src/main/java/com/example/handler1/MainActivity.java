@@ -2,6 +2,7 @@ package com.example.handler1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +16,13 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 import android.util.LruCache;
+import android.widget.ImageView;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +147,20 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        };
 
+        ImageView mImage = (ImageView) findViewById(R.id.image1);
+
+        try {
+            Bitmap bitmap = null;
+            String key1 = haskKeyForDisk(imageURl);
+            DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key1);
+            if(snapshot != null){
+                InputStream is = snapshot.getInputStream(0);
+                Bitmap bitmap1 = BitmapFactory.decodeStream(is);
+                mImage.setImageBitmap(bitmap1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         new Thread(new Runnable() {
