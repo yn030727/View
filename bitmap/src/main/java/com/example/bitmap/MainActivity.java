@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         //listview设置adapter
         lsv_image_loader.setAdapter(adapter);
 
+//        TestManager.getInstance().registerListener(this);
+
     }
 
 
