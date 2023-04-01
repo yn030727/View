@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -11,11 +15,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TestThread mThread = new TestThread();
-        mThread.start();
-
-        TestRunnable runnable = new TestRunnable();
-        Thread mThread2 = new Thread(runnable);
-        mThread2.start();
+        TestCallable testCallable = new TestCallable();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future future =  executorService.submit(testCallable);
+        try{
+            System.out.println(future.get());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
