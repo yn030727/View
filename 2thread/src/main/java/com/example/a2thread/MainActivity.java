@@ -7,6 +7,7 @@ import android.os.Bundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,13 +16,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TestCallable testCallable = new TestCallable();
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future future =  executorService.submit(testCallable);
-        try{
-            System.out.println(future.get());
-        }catch (Exception e){
+        MoonRunner moonRunner = new MoonRunner();
+        Thread thread = new Thread(moonRunner);
+        thread.start();
+        try {
+            TimeUnit.MILLISECONDS.sleep(10);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        moonRunner.cancel();
+
+
+//        TestCallable testCallable = new TestCallable();
+//        ExecutorService executorService = Executors.newSingleThreadExecutor();
+//        Future future =  executorService.submit(testCallable);
+//        try{
+//            System.out.println(future.get());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 }
