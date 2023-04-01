@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
         }
         moonRunner.cancel();
 
+
+        Lock mLock = new ReentrantLock();
+        mLock.lock();
+        try{
+
+        }finally {
+            mLock.unlock();
+        }
 
 //        TestCallable testCallable = new TestCallable();
 //        ExecutorService executorService = Executors.newSingleThreadExecutor();
