@@ -2,6 +2,10 @@ package com.example.materialdesign;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -39,7 +43,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(button , "translationX" , 200);
+        objectAnimator.setDuration(300);
+        objectAnimator.start();
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        AnimatorSet set = new AnimatorSet();
+
+
+        PropertyValuesHolder valuesHolder1 = PropertyValuesHolder.ofFloat("scaleX" , 1.0f , 1.5f);
+        PropertyValuesHolder valuesHolder2 = PropertyValuesHolder.ofFloat("rotationX" , 0.0f , 90.0f , 0.0f);
+        PropertyValuesHolder valuesHolder3 = PropertyValuesHolder.ofFloat("alpha" , 1.0f , 0.3f , 1.0f);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(button , valuesHolder1 , valuesHolder2 , valuesHolder3);
+        objectAnimator1.setDuration(2000).start();
+
+    } 
 
     public boolean validatePassword(String password){
         //验证密码格式是否正确
@@ -69,6 +108,21 @@ public class MainActivity extends AppCompatActivity {
         }else{
             tl_username.setErrorEnabled(false);
             tl_password.setErrorEnabled(false);
+        }
+    }
+
+
+    public static class MyView{
+        private View mTarget;
+        private MyView(View mTarget){
+            this.mTarget = mTarget;
+        }
+        public int getWidth() {
+            return mTarget.getLayoutParams().width;
+        }
+        public void setWidth(int width){
+            mTarget.getLayoutParams().width = width;
+            mTarget.requestLayout();
         }
     }
 
