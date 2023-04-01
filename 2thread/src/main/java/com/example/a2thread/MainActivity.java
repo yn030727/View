@@ -13,5 +13,9 @@ public class MainActivity extends AppCompatActivity {
 
         TestThread mThread = new TestThread();
         mThread.start();
+
+        TestRunnable runnable = new TestRunnable();
+        Thread mThread2 = new Thread(runnable);
+        mThread2.start();
     }
 }
