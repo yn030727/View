@@ -12,8 +12,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -24,20 +29,58 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String TAG = "Ning : ";
+        Log.d(TAG, "onCreate: 11111111111111111111111111");
         RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest mStringRequest = new StringRequest(Request.Method.GET, "http://192.168.1.117:8084/ping", new Response.Listener<String>() {
+        //JsonRequest 和 StringRequest的使用方法类似
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.POST,"https://v2.alapi.cn/api/qinghua?token=LwExDtUWhF3rH5ib", null,new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                Log.d("Ning" , response);
+            public void onResponse(JSONObject response) {
+                HappyJoke happyJoke = new Gson().fromJson(response.toString() , HappyJoke.class);
+                Log.d(TAG, "onResponse: begin!!!!!!!!!!");
+                if(happyJoke != null && happyJoke.getData() != null && happyJoke.getAuthor() != null){
+                    String content = happyJoke.getData().getContent();
+                    String name = happyJoke.getAuthor().getName();
+                    String desc = happyJoke.getAuthor().getDesc();
+                    int code = happyJoke.getCode();
+                    String msg = happyJoke.getMsg();
+                    Log.d("Ning : " , content);
+                    Log.d("Ning : " , name);
+                    Log.d("Ning : " , desc);
+                    Log.d("Ning : " , code + "");
+                    Log.d("Ning : " , msg);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Ning" , error.getMessage() , error);
+                Log.e("Ning:" , error.getMessage() , error);
             }
         });
+        mQueue.add(mJsonObjectRequest);
 
-        mQueue.add(mStringRequest);
+
+
+
+
+
+
+
+        //
+//        RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
+//        StringRequest mStringRequest = new StringRequest(Request.Method.GET, "http://192.168.1.117:8084/ping", new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.d("Ning" , response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.e("Ning" , error.getMessage() , error);
+//            }
+//        });
+//
+//        mQueue.add(mStringRequest);
 
         //        Button button = (Button) findViewById(R.id.button1);
 //        button.setOnClickListener(new View.OnClickListener() {
