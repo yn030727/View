@@ -3,8 +3,15 @@ package com.example.retrofit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
+import java.security.spec.EncodedKeySpec;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,5 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Ning" , "onFailure:1111111111");
             }
         });
+
+
+        File file = new File(Environment.getExternalStorageDirectory() , "Ning.png");
+        RequestBody photoRequestBody = RequestBody.create(MediaType.parse("image.png") ,file);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("photos" ,"Ning.png" , photoRequestBody);
+        UpLoadFileForPart upLoadFileForPart = retrofit.create(UpLoadFileForPart.class);
+        Call<User> call1 = upLoadFileForPart.updateUser(photo , RequestBody.create(null , "Ning"));
+
     }
 }
