@@ -36,8 +36,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageView imageView = (ImageView)findViewById(R.id.image1);
-        OkHttpWithImage();
+
+        OkHttpEngine.getInstance(MainActivity.this).getAsyncHttp("http://www.baidu.com", new ResultCallback() {
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String str) throws IOException {
+                Log.d("Ning" , "111111111111111111");
+            }
+        });
     }
 
     public void okHttpRequest(){
