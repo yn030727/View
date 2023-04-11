@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Ning" , "111111111111111111");
             }
         });
+
+
+        //OkHttp4源码入口
+//        OkHttpClient
+        OkHttpClient okHttpClient = new OkHttpClient();
+        //okHttpClient.newCall().enqueue();
     }
 
     public void okHttpRequest(){
