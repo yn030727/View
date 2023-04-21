@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.squareup.otto.Bus;
+
 import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,5 +17,7 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         EventBus.getDefault().unregister(this);
+        Bus bus = new Bus();
+        bus.register(this);
     }
 }
