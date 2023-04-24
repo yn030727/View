@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/okhttp" />
             <option value="$PROJECT_DIR$/remoteviews" />
             <option value="$PROJECT_DIR$/retrofit" />
+            <option value="$PROJECT_DIR$/rxjava" />
             <option value="$PROJECT_DIR$/slidingconflict" />
             <option value="$PROJECT_DIR$/window" />
           </set>

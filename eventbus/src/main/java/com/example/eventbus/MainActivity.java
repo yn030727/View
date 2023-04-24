@@ -19,5 +19,7 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
         Bus bus = new Bus();
         bus.register(this);
+        bus.post(this);
+        bus.unregister(this);
     }
 }
