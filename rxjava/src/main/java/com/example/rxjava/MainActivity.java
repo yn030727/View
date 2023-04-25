@@ -2,6 +2,7 @@ package com.example.rxjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -506,35 +507,38 @@ public class MainActivity extends AppCompatActivity {
 //                });
 
 //        postAsynHttp("123456");
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://api.github.com/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+//                .build();
+//
+//        IpServiceForPost ipServiceForPost = retrofit.create(IpServiceForPost.class);
+//
+//        ipServiceForPost.getUser("octocat")
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new SingleObserver<User>() {
+//                    @Override
+//                    public void onSubscribe(@NonNull Disposable d) {
+//                        //订阅时回调这里可以显示加载框等操作
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(@NonNull User user) {
+//                        Log.d(TAG, "onSuccess: " + user.getName() + "   " + user.getFollowers() );
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        Log.d(TAG, "onError: ");
+//                    }
+//                });
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build();
 
-        IpServiceForPost ipServiceForPost = retrofit.create(IpServiceForPost.class);
-
-        ipServiceForPost.getUser("octocat")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<User>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        //订阅时回调这里可以显示加载框等操作
-                    }
-
-                    @Override
-                    public void onSuccess(@NonNull User user) {
-                        Log.d(TAG, "onSuccess: " + user.getName() + "   " + user.getFollowers() );
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: ");
-                    }
-                });
-
+        Intent intent = new Intent(this , RxBusActivity.class);
+        startActivity(intent);
 
     }
 
