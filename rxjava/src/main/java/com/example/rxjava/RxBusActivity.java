@@ -64,6 +64,8 @@ public class RxBusActivity extends AppCompatActivity {
                     }
                 });
 
+
+
     }
 
     @Override
