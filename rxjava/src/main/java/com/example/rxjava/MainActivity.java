@@ -1,18 +1,24 @@
 package com.example.rxjava;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+
+import com.example.rxjava.databinding.ActivityMainBinding;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -48,10 +54,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
         String TAG = "Ning_RxJava";
+
+        //setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this , R.layout.activity_main);
+
+        Swordsman swordsman = new Swordsman("张无忌" , "SSR") ;
+//        binding.setSwordsman(swordsman);
+//
+//        binding.setOnclickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(TAG, "onClick: ");
+//            }
+//        });
+
+        String name = "Hello World";
+        binding.setSwordsman(swordsman);
+
+
+
+
+
+
+
+
+
 
 //        //1.创建Observer(观察者)
 //        Observer observer = new Observer<Object>() {
@@ -536,68 +564,68 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-
-        Intent intent = new Intent(this , RxBusActivity.class);
-        startActivity(intent);
+//
+//        Intent intent = new Intent(this , RxBusActivity.class);
+//        startActivity(intent);
 
     }
 
-    OkHttpClient mOkHttpClient;
-    private Observable<String> getObservable(final String ip){
-        Observable observable = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<String> emitter) throws Throwable {
-                mOkHttpClient = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url("https://www.baidu.com")
-                        .build();
-                Call call = mOkHttpClient.newCall(request);
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        emitter.onError(new Exception("error"));
-                    }
+//    OkHttpClient mOkHttpClient;
+//    private Observable<String> getObservable(final String ip){
+//        Observable observable = Observable.create(new ObservableOnSubscribe<String>() {
+//            @Override
+//            public void subscribe(@NonNull ObservableEmitter<String> emitter) throws Throwable {
+//                mOkHttpClient = new OkHttpClient();
+//                Request request = new Request.Builder()
+//                        .url("https://www.baidu.com")
+//                        .build();
+//                Call call = mOkHttpClient.newCall(request);
+//                call.enqueue(new Callback() {
+//                    @Override
+//                    public void onFailure(Call call, IOException e) {
+//                        emitter.onError(new Exception("error"));
+//                    }
+//
+//                    @Override
+//                    public void onResponse(Call call, Response response) throws IOException {
+//                        String str = response.body().string();
+//                        emitter.onNext(str);
+//                        emitter.onComplete();
+//                    }
+//                });
+//            }
+//        });
+//
+//        return observable;
+//    }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String str = response.body().string();
-                        emitter.onNext(str);
-                        emitter.onComplete();
-                    }
-                });
-            }
-        });
-
-        return observable;
-    }
-
-
-    private String TAG = "Ning";
-    private void postAsynHttp(String size){
-
-        getObservable(size).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull String s) {
-                        Log.d(TAG, "onNext: " + s);
-                        Toast.makeText( getApplicationContext() , "请求成功", Toast.LENGTH_SHORT ).show();
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, "onError: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d(TAG, "onComplete");
-                    }
-                });
-    }
+//
+//    private String TAG = "Ning";
+//    private void postAsynHttp(String size){
+//
+//        getObservable(size).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<String>() {
+//                    @Override
+//                    public void onSubscribe(@NonNull Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(@NonNull String s) {
+//                        Log.d(TAG, "onNext: " + s);
+//                        Toast.makeText( getApplicationContext() , "请求成功", Toast.LENGTH_SHORT ).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        Log.d(TAG, "onError: " + e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        Log.d(TAG, "onComplete");
+//                    }
+//                });
+//    }
 }

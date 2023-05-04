@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <import type="java.util.ArrayList"/>
+        <import type="java.util.Map"/>
+        <import type="android.view.View"/>
+        <import type="com.example.rxjava.NameUtils"/>
+        <variable
+            name="list"
+            type="ArrayList&lt;String>" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="swordsman"
+            type="com.example.rxjava.Swordsman" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"name is " + NameUtils.getName(swordsman)}'
+            android:visibility='@{3 &lt; 2 ? View.VISIBLE : View.GONE}'/>
+
+    </LinearLayout>
+
+
+</layout>
