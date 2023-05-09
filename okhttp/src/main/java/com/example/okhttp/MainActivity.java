@@ -1,5 +1,6 @@
 package com.example.okhttp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -22,6 +23,7 @@ import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -60,7 +62,15 @@ public class MainActivity extends AppCompatActivity {
         Request.Builder requestBuilder = new Request.Builder().url("https://www.baidu.com/");
         requestBuilder.method("GET" , null);
         Request request = requestBuilder.build();
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    System.out.println(111);
+                    return null;
+                })
+                .build();
+
+
         Call mCall = mOkHttpClient.newCall(request);
         mCall.enqueue(new Callback() {
             @Override
@@ -101,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown ; charset=utf-8");
