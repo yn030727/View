@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -45,14 +46,19 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
+                    .border(1.5.dp , MaterialTheme.colors.secondary , CircleShape)
             )
             
             //在图片和垂直文本块之间添加8dp的空白距离
             Spacer(modifier = Modifier.width(8.dp))
             
             Column() {
-                Text(text = "Hello ${message.author}!")
+                Text(text = "Hello ${message.author}!" ,
+                    color = MaterialTheme.colors.secondaryVariant
+                )
+
                 Spacer(modifier = Modifier.height(4.dp))
+
                 Text(text = "Hello ${message.body}!")
             }
         }
