@@ -1,7 +1,10 @@
 package com.example.compose
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
@@ -25,14 +28,22 @@ import com.example.compose.ui.theme.Message
 import com.example.compose.ui.theme.SampleData
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.viewinterop.AndroidView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme() {
-                Conversation(messages = SampleData.conversationSample)
-            }
+//            MaterialTheme() {
+//                Conversation(messages = SampleData.conversationSample)
+//            }
+            AndroidView(factory = {context ->
+                WebView(context).apply {
+                    settings.javaScriptEnabled = true
+                    webViewClient = WebViewClient()
+                    loadUrl("https://jetpackcompose.cn/")
+                }
+            } , modifier = Modifier.fillMaxSize())
         }
     }
 
@@ -73,7 +84,9 @@ class MainActivity : ComponentActivity() {
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                androidx.compose.material.Surface(shape = MaterialTheme.shapes.medium , elevation = 1.dp , color = surfaceColor , modifier = Modifier.animateContentSize().padding(1.dp)
+                androidx.compose.material.Surface(shape = MaterialTheme.shapes.medium , elevation = 1.dp , color = surfaceColor , modifier = Modifier
+                    .animateContentSize()
+                    .padding(1.dp)
                 ) {
                     Text(text = "Hello ${message.body}!",
                         style = MaterialTheme.typography.body2,
@@ -92,6 +105,7 @@ class MainActivity : ComponentActivity() {
         showBackground = true,
         name = "Dark Mode"
     )
+
     @Composable
     fun previewMessageCard(){
         MaterialTheme() {
@@ -118,6 +132,7 @@ class MainActivity : ComponentActivity() {
             Conversation(messages = SampleData.conversationSample)
         }
     }
-    
+
+
 }
 
