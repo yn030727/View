@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -182,5 +183,25 @@ class MainActivity : ComponentActivity() {
             Color.White
         )
     )
+
+    @Composable
+    fun ModifierBorderPadding(){
+        Box(
+            modifier = Modifier
+                .padding(8.dp)
+                .border(2.dp, Color.Red, shape = RoundedCornerShape(2.dp))
+                .padding(8.dp)
+        ){
+            Spacer(modifier = Modifier
+                .size(width = 100.dp, height = 10.dp)
+                .background(Color.Red)
+            )
+        }
+    }
+    @Preview(showBackground = true)
+    @Composable
+    fun PreviewModifierBorderPadding(){
+        ModifierBorderPadding()
+    }
 }
 
