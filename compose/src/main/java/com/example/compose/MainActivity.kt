@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,9 @@ import com.example.compose.ui.theme.Message
 import com.example.compose.ui.theme.SampleData
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
 
 class MainActivity : ComponentActivity() {
@@ -37,13 +41,24 @@ class MainActivity : ComponentActivity() {
 //            MaterialTheme() {
 //                Conversation(messages = SampleData.conversationSample)
 //            }
-            AndroidView(factory = {context ->
-                WebView(context).apply {
-                    settings.javaScriptEnabled = true
-                    webViewClient = WebViewClient()
-                    loadUrl("https://jetpackcompose.cn/")
-                }
-            } , modifier = Modifier.fillMaxSize())
+
+
+            Column {
+                AndroidView(factory = {context ->
+                    WebView(context).apply {
+                        settings.javaScriptEnabled = true
+                        webViewClient = WebViewClient()
+                        loadUrl("https://jetpackcompose.cn/")
+                    }
+                } , modifier = Modifier.fillMaxSize())
+
+                Image(painter = painterResource(id = R.drawable.ning),
+                    contentDescription = null ,
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(CircleShape))
+            }
+
         }
     }
 
@@ -133,6 +148,39 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    
+    @Composable
+    fun ModifierBackground(){
+        Row{
+            Box(modifier = Modifier
+                .size(50.dp)
+                .background(color = Color.Red)){
+                Text(text = "纯色" , Modifier.align(Alignment.Center))
+            }
 
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Box(
+                Modifier
+                    .size(50.dp)
+                    .background(brush = verticalGradientBrush)){
+                Text(text = "渐变色" , Modifier.align(Alignment.Center))
+            }
+        }
+    }
+    @Preview(showBackground = true)
+    @Composable
+    fun PreviewModifierBackground(){
+        ModifierBackground()
+    }
+
+    //创建Brush渐变色
+    val verticalGradientBrush = Brush.verticalGradient(
+        colors = listOf(
+            Color.Red,
+            Color.Yellow,
+            Color.White
+        )
+    )
 }
 
