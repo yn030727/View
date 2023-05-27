@@ -114,7 +114,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @Preview(name = "Light Mode")
     @Preview(
         uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -203,5 +202,14 @@ class MainActivity : ComponentActivity() {
     fun PreviewModifierBorderPadding(){
         ModifierBorderPadding()
     }
+
+    @Composable
+    fun ModifierBox(){
+        Box {
+
+        }
+    }
+
+
 }
 
