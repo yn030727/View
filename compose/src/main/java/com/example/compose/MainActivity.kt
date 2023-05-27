@@ -2,6 +2,7 @@ package com.example.compose
 
 import android.content.Context
 import android.content.res.Configuration
+import android.media.MediaRouter.UserRouteInfo
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -44,21 +45,23 @@ class MainActivity : ComponentActivity() {
 //            }
 
 
-            Column {
-                AndroidView(factory = {context ->
-                    WebView(context).apply {
-                        settings.javaScriptEnabled = true
-                        webViewClient = WebViewClient()
-                        loadUrl("https://jetpackcompose.cn/")
-                    }
-                } , modifier = Modifier.fillMaxSize())
+//            Column {
+//                AndroidView(factory = {context ->
+//                    WebView(context).apply {
+//                        settings.javaScriptEnabled = true
+//                        webViewClient = WebViewClient()
+//                        loadUrl("https://jetpackcompose.cn/")
+//                    }
+//                } , modifier = Modifier.fillMaxSize())
+//
+//                Image(painter = painterResource(id = R.drawable.ning),
+//                    contentDescription = null ,
+//                    modifier = Modifier
+//                        .size(100.dp)
+//                        .clip(CircleShape))
+//            }
 
-                Image(painter = painterResource(id = R.drawable.ning),
-                    contentDescription = null ,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape))
-            }
+            WeightModifierDemo()
 
         }
     }
@@ -207,6 +210,38 @@ class MainActivity : ComponentActivity() {
     fun ModifierBox(){
         Box {
 
+        }
+    }
+
+    @Composable
+    fun MatchParentModifierDemo(){
+        Box{
+            Box(modifier = Modifier
+                .matchParentSize()
+                .background(Color.LightGray)
+            )
+        }
+    }
+
+
+    @Composable
+    fun WeightModifierDemo(){
+        Column(modifier = Modifier
+            .width(300.dp)
+            .height(200.dp)) {
+
+            Box(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(Color.White))
+            Box(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(Color.Blue))
+            Box(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(Color.Red))
         }
     }
 
