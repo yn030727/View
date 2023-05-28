@@ -34,6 +34,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 
 class MainActivity : ComponentActivity() {
@@ -230,18 +236,50 @@ class MainActivity : ComponentActivity() {
             .width(300.dp)
             .height(200.dp)) {
 
+//            Box(modifier = Modifier
+//                .weight(1f)
+//                .fillMaxWidth()
+//                .background(Color.White))
+//            Box(modifier = Modifier
+//                .weight(1f)
+//                .fillMaxWidth()
+//                .background(Color.White)) //Blue
             Box(modifier = Modifier
-                .weight(1f)
                 .fillMaxWidth()
-                .background(Color.White))
-            Box(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .background(Color.Blue))
-            Box(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .background(Color.Red))
+                .background(Color.White)){ //Red
+                
+//                //指定字符串
+//                Text(text = "Android111111111111111111")
+//                //指定文字资源
+//                Text(text = stringResource(id = R.string.app_name))
+                Column {
+                    Text(text = "Hello World\n" + "Goodbye World",
+                        style = TextStyle(
+                            fontSize = 25.sp, //字体大小
+                            fontWeight = FontWeight.Bold, //字体粗细
+                            background = Color.Cyan, //背景
+                            lineHeight = 35.sp //行高
+                        )
+                    )
+
+                    Text(text = "Hello World",
+                        style = TextStyle(
+                            color = Color.Gray,
+                            letterSpacing = 4.sp //字体间距
+                        )
+                    )
+
+                    Text(text = "Hello World",
+                        style = TextStyle(
+                            textDecoration = TextDecoration.LineThrough
+                        )
+                    )
+
+                    Text(text = "Hello World",
+                        style = MaterialTheme.typography.h6.copy(fontStyle = FontStyle.Italic)
+                    )
+                }
+            }
         }
     }
 
