@@ -18,11 +18,14 @@ fun funB(scope: BScope.() -> Unit){
 }
 
 fun main(){
-    funA {
-        funB {
-            visitA()
-        }
-    }
+//    funA {
+//        funB {
+//            visitA()
+//        }
+//    }
+
+    var data1 = Data(3 , "123")
+    println(data1.toString())
 }
 
 fun strToInt(str : String) : Int{
