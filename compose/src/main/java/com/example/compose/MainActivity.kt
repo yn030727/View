@@ -36,9 +36,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 
@@ -67,8 +69,7 @@ class MainActivity : ComponentActivity() {
 //                        .clip(CircleShape))
 //            }
 
-            WeightModifierDemo()
-
+            fontFamilyTextDemo()
         }
     }
 
@@ -283,6 +284,35 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun maxLinesTextDemo(){
+        Column {
+            Text(text = "你好世界，我正在使用Jetpack Compose框架来开发我的App界面",
+                style = MaterialTheme.typography.body1,
+            )
+
+            Text(text = "你好世界，我正在使用Jetpack Compose框架来开发我的App界面",
+                style = MaterialTheme.typography.body1,
+                maxLines = 1
+            )
+
+            Text(text = "你好世界，我正在使用Jetpack Compose框架来开发我的App界面",
+                style = MaterialTheme.typography.body1,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+
+    @Composable
+    fun fontFamilyTextDemo(){
+        Column {
+            Text("Hello World")
+            Text("Hello World" , fontFamily = FontFamily.Monospace)
+            Text("Hello World" , fontFamily = FontFamily.Cursive)
+
+        }
+    }
 
 }
 
