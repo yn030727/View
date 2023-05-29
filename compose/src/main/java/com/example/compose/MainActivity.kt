@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
@@ -72,7 +74,7 @@ class MainActivity : ComponentActivity() {
 //                        .clip(CircleShape))
 //            }
 
-            TextFieldSample2()
+            TextFieldSample()
         }
     }
 
@@ -404,8 +406,10 @@ class MainActivity : ComponentActivity() {
             onValueChange = {
                 text = it
             },
-            label = { Text(text = "用户名")}
+            label = { Text(text = "用户名")},
+            modifier = Modifier.height(30.dp)
         )
+        BasicTextField(value = "1", onValueChange = {})
     }
     
     @Composable
@@ -451,5 +455,21 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    @Composable
+    fun OutlineTextFieldSample(){
+        var username by remember {
+            mutableStateOf("")
+        }
+        OutlinedTextField(
+            value = username,
+            onValueChange = {
+                username = it
+            },
+            label = {
+                Text(text = "用户名")
+            }
+        )
+    }
 }
 
