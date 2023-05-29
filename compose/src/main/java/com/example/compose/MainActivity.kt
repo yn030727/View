@@ -26,6 +26,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -549,6 +550,23 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             innerTextField()
+                        }
+
+                        Box(modifier = Modifier
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.CenterEnd
+                        ){
+                            if(text.isNotEmpty()){
+                                IconButton(
+                                    onClick = { text = ""},
+                                    modifier = Modifier.size(16.dp),
+
+                                    ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "CancelIcon")
+                                }
+                            }
                         }
                     }
                 },
