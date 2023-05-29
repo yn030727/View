@@ -26,6 +26,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -74,7 +75,7 @@ class MainActivity : ComponentActivity() {
 //                        .clip(CircleShape))
 //            }
 
-            TextFieldSample()
+            SearchBar()
         }
     }
 
@@ -366,7 +367,7 @@ class MainActivity : ComponentActivity() {
 
             append("\n")
 
-            withStyle(style = ParagraphStyle(lineHeight = 25.sp)){
+            withStyle(style = ParagraphStyle(lineHeight = 25.sp)) {
                 append("在刚刚讲过的内容中，我们学会了如何应用文字样式，以及如何限制文本的行数和处理溢出的视觉效果。")
                 append("\n")
                 append("现在，我们正在学习")
@@ -377,7 +378,7 @@ class MainActivity : ComponentActivity() {
                         textDecoration = TextDecoration.Underline,
                         color = Color(0xFF59A869)
                     )
-                ){
+                ) {
                     append("AnnotatedString")
                 }
             }
@@ -387,7 +388,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ClickableTextDemo(){
+    fun ClickableTextDemo() {
 //            ClickableText
 
         SelectionContainer {
@@ -397,33 +398,34 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TextFieldSample(){
+    fun TextFieldSample() {
         var text by remember {
             mutableStateOf("")
         }
 
-        TextField(value = text,
+        TextField(
+            value = text,
             onValueChange = {
                 text = it
             },
-            label = { Text(text = "用户名")},
+            label = { Text(text = "用户名") },
             modifier = Modifier.height(30.dp)
         )
         BasicTextField(value = "1", onValueChange = {})
     }
-    
+
     @Composable
-    fun TextFieldSample2(){
+    fun TextFieldSample2() {
         var username by remember {
             mutableStateOf("")
         }
         var password by remember {
             mutableStateOf("")
         }
-        
+
         Column {
             TextField(
-                value = username , 
+                value = username,
                 onValueChange = {
                     username = it
                 },
@@ -433,7 +435,8 @@ class MainActivity : ComponentActivity() {
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.AccountBox,
-                        contentDescription = "username")
+                        contentDescription = "username"
+                    )
                 }
             )
 
@@ -447,8 +450,10 @@ class MainActivity : ComponentActivity() {
                 },
                 trailingIcon = {
                     IconButton(onClick = {}) {
-                        Icon(painter = painterResource(id = R.drawable.description),
-                            contentDescription = "password")
+                        Icon(
+                            painter = painterResource(id = R.drawable.description),
+                            contentDescription = "password"
+                        )
                     }
                 }
             )
@@ -457,7 +462,7 @@ class MainActivity : ComponentActivity() {
 
 
     @Composable
-    fun OutlineTextFieldSample(){
+    fun OutlineTextFieldSample() {
         var username by remember {
             mutableStateOf("")
         }
@@ -471,5 +476,91 @@ class MainActivity : ComponentActivity() {
             }
         )
     }
+
+    @Composable
+    fun BasicTextFieldSample() {
+        var text by remember {
+            mutableStateOf("")
+        }
+
+        BasicTextField(
+            value = text,
+            onValueChange = {
+                text = it
+            },
+            decorationBox = { innerTextField ->
+                Column { //Column让里面的元素从上到下排列
+                    innerTextField()
+
+                    Divider( //这个组件的作用是创建一条分割线
+                        thickness = 2.dp, //分割线的粗度
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Black)
+                    )
+                }
+            }
+        )
+
+    }
+
+    @Composable
+    fun SearchBar(){
+        var text by remember {
+            mutableStateOf("")
+        }
+
+        Box(
+            //填满父布局
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFD3D3D3)),
+            //将Box里面的组件放置于Box容器的中央
+            contentAlignment = Alignment.Center
+        ){
+            BasicTextField(
+                value = text,
+                onValueChange = {
+                    text = it
+                },
+                decorationBox = { innerTextField ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(vertical = 2.dp , horizontal = 8.dp)
+                    ){
+
+                        //添加前面的搜索图标
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = "SearchIcon")
+                        //添加Box帧布局，显示Placeholder文字。
+                        //Box帧布局的作用是让innerTextField和Placeholder显示在同一个位置
+                        Box (
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp),
+                            contentAlignment = Alignment.CenterStart //设置子元素为竖直方向上的中间，水平方向上的最左边。
+                        ){
+                            if(text.isEmpty()){
+                                Text(
+                                    text = "输入点东西看看吧~",
+                                    style = TextStyle(
+                                        color = Color(0 , 0 , 0 , 128)
+                                    )
+                                )
+                            }
+                            innerTextField()
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .background(Color.White, CircleShape)
+                    .height(30.dp)
+                    .fillMaxWidth()
+            )
+        }
+    }
+
+
 }
 
