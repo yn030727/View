@@ -10,10 +10,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,10 +25,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,8 +77,7 @@ class MainActivity : ComponentActivity() {
 //                        .size(100.dp)
 //                        .clip(CircleShape))
 //            }
-
-            IconSample()
+            checkBoxSample()
         }
     }
 
@@ -601,6 +597,107 @@ class MainActivity : ComponentActivity() {
             contentDescription = null,
             tint = Color.Red
         )
+    }
+    
+    @Composable
+    fun ButtonSample(){
+        Button(
+            onClick = { }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Done,
+                contentDescription = "确认",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+
+            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+
+            Text(text = "确认")
+        }
+    }
+
+    @Composable
+    fun InteractionSourceDemo(){
+        val interactionSource = remember{
+            MutableInteractionSource()
+        }
+        //判断是否按下状态，返回0或1
+        val pressState = interactionSource.collectIsPressedAsState()
+        //通过0和1，设置不同的颜色
+        val borderColor = if(pressState.value) Color.Green else Color.White
+
+        Button(
+            onClick = {},
+            border = BorderStroke(2.dp , color = borderColor),
+            interactionSource = interactionSource
+        ) {
+            Text("Long Press")
+        }
+    }
+
+    @Composable
+    fun IconButtonSample(){
+//        IconButton(
+//            onClick = {},
+//        ) {
+//            Icon(
+//                imageVector = Icons.Filled.Favorite,
+//                contentDescription = "图标按钮"
+//            )
+//        }
+//
+
+//        FloatingActionButton(
+//            onClick = {}
+//        ) {
+//            Icon(
+//                imageVector = Icons.Filled.ArrowForward,
+//                contentDescription = null
+//            )
+//        }
+        
+        ExtendedFloatingActionButton(
+            icon = {
+                   Icon(
+                       imageVector = Icons.Filled.Favorite,
+                       contentDescription = null
+                   )
+            },
+            text = { 
+                   Text(text = "添加到我喜欢的")
+            }, 
+            onClick = { /*TODO*/ }
+        )
+    }
+
+    @Composable
+    fun checkBoxSample(){
+        val checkedState = remember {
+            mutableStateOf(true)
+        }
+
+        Checkbox(
+            checked = checkedState.value ,
+            onCheckedChange = {
+                checkedState.value = it
+            },
+            colors = CheckboxDefaults.colors(
+                checkedColor = Color(0xFF0079D3)
+            )
+        )
+    }
+
+    @Composable
+    fun TriStateCheckboxSample(){
+        //为两个CheckBox定义状态
+        val (state,onStateChange) = remember {
+            mutableStateOf(true)
+        }
+        val (state2,onStateChange2) = remember {
+            mutableStateOf(true)
+        }
+
+        //根据子CheckBox的状态来设置
     }
 
 }

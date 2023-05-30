@@ -66,5 +66,8 @@ fun main(){
 fun reversePrint(head : List<Int?>) : IntArray {
     val array = IntArray(5)
     array.set(0 ,1)
+    val p by lazy {
+
+    }
     return array
 }
