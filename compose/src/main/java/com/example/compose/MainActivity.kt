@@ -27,6 +27,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -41,7 +42,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -76,7 +81,7 @@ class MainActivity : ComponentActivity() {
 //                        .clip(CircleShape))
 //            }
 
-            SearchBar()
+            IconSample()
         }
     }
 
@@ -579,6 +584,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun IconDemo(){
+//        //Icon(painter = , contentDescription = )
+//        Icon(imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_background), contentDescription = "矢量图资源")
+//        Icon(bitmap = ImageBitmap.imageResource(id = R.drawable.ic_launcher_background), contentDescription = "图片资源")
+//        Icon(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "任意类型资源")
+        //Image(painter = , contentDescription = )
+
+    }
+
+    @Composable
+    fun IconSample(){
+        Icon(
+            imageVector = Icons.Filled.Favorite,
+            contentDescription = null,
+            tint = Color.Red
+        )
+    }
 
 }
 
