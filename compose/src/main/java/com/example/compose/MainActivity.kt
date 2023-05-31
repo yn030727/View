@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
 //                        .size(100.dp)
 //                        .clip(CircleShape))
 //            }
-            checkBoxSample()
+            SwitchDemo()
         }
     }
 
@@ -507,7 +508,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun SearchBar(){
+    fun SearchBar() {
         var text by remember {
             mutableStateOf("")
         }
@@ -519,7 +520,7 @@ class MainActivity : ComponentActivity() {
                 .background(Color(0xFFD3D3D3)),
             //将Box里面的组件放置于Box容器的中央
             contentAlignment = Alignment.Center
-        ){
+        ) {
             BasicTextField(
                 value = text,
                 onValueChange = {
@@ -528,44 +529,47 @@ class MainActivity : ComponentActivity() {
                 decorationBox = { innerTextField ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(vertical = 2.dp , horizontal = 8.dp)
-                    ){
+                        modifier = Modifier.padding(vertical = 2.dp, horizontal = 8.dp)
+                    ) {
 
                         //添加前面的搜索图标
                         Icon(
                             imageVector = Icons.Filled.Search,
-                            contentDescription = "SearchIcon")
+                            contentDescription = "SearchIcon"
+                        )
                         //添加Box帧布局，显示Placeholder文字。
                         //Box帧布局的作用是让innerTextField和Placeholder显示在同一个位置
-                        Box (
+                        Box(
                             modifier = Modifier
                                 .padding(horizontal = 10.dp),
                             contentAlignment = Alignment.CenterStart //设置子元素为竖直方向上的中间，水平方向上的最左边。
-                        ){
-                            if(text.isEmpty()){
+                        ) {
+                            if (text.isEmpty()) {
                                 Text(
                                     text = "输入点东西看看吧~",
                                     style = TextStyle(
-                                        color = Color(0 , 0 , 0 , 128)
+                                        color = Color(0, 0, 0, 128)
                                     )
                                 )
                             }
                             innerTextField()
                         }
 
-                        Box(modifier = Modifier
+                        Box(
+                            modifier = Modifier
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.CenterEnd
-                        ){
-                            if(text.isNotEmpty()){
+                        ) {
+                            if (text.isNotEmpty()) {
                                 IconButton(
-                                    onClick = { text = ""},
+                                    onClick = { text = "" },
                                     modifier = Modifier.size(16.dp),
 
                                     ) {
                                     Icon(
                                         imageVector = Icons.Filled.Close,
-                                        contentDescription = "CancelIcon")
+                                        contentDescription = "CancelIcon"
+                                    )
                                 }
                             }
                         }
@@ -581,7 +585,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun IconDemo(){
+    fun IconDemo() {
 //        //Icon(painter = , contentDescription = )
 //        Icon(imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_background), contentDescription = "矢量图资源")
 //        Icon(bitmap = ImageBitmap.imageResource(id = R.drawable.ic_launcher_background), contentDescription = "图片资源")
@@ -591,16 +595,16 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun IconSample(){
+    fun IconSample() {
         Icon(
             imageVector = Icons.Filled.Favorite,
             contentDescription = null,
             tint = Color.Red
         )
     }
-    
+
     @Composable
-    fun ButtonSample(){
+    fun ButtonSample() {
         Button(
             onClick = { }
         ) {
@@ -617,18 +621,18 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun InteractionSourceDemo(){
-        val interactionSource = remember{
+    fun InteractionSourceDemo() {
+        val interactionSource = remember {
             MutableInteractionSource()
         }
         //判断是否按下状态，返回0或1
         val pressState = interactionSource.collectIsPressedAsState()
         //通过0和1，设置不同的颜色
-        val borderColor = if(pressState.value) Color.Green else Color.White
+        val borderColor = if (pressState.value) Color.Green else Color.White
 
         Button(
             onClick = {},
-            border = BorderStroke(2.dp , color = borderColor),
+            border = BorderStroke(2.dp, color = borderColor),
             interactionSource = interactionSource
         ) {
             Text("Long Press")
@@ -636,7 +640,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun IconButtonSample(){
+    fun IconButtonSample() {
 //        IconButton(
 //            onClick = {},
 //        ) {
@@ -655,29 +659,29 @@ class MainActivity : ComponentActivity() {
 //                contentDescription = null
 //            )
 //        }
-        
+
         ExtendedFloatingActionButton(
             icon = {
-                   Icon(
-                       imageVector = Icons.Filled.Favorite,
-                       contentDescription = null
-                   )
+                Icon(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = null
+                )
             },
-            text = { 
-                   Text(text = "添加到我喜欢的")
-            }, 
+            text = {
+                Text(text = "添加到我喜欢的")
+            },
             onClick = { /*TODO*/ }
         )
     }
 
     @Composable
-    fun checkBoxSample(){
+    fun checkBoxSample() {
         val checkedState = remember {
             mutableStateOf(true)
         }
 
         Checkbox(
-            checked = checkedState.value ,
+            checked = checkedState.value,
             onCheckedChange = {
                 checkedState.value = it
             },
@@ -688,17 +692,72 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TriStateCheckboxSample(){
+    fun TriStateCheckboxSample() {
         //为两个CheckBox定义状态
-        val (state,onStateChange) = remember {
+        //这是Kotlin的解构声明,这里理解成同时声明两个变量
+        val (state, onStateChange) = remember {
             mutableStateOf(true)
         }
-        val (state2,onStateChange2) = remember {
+        val (state2, onStateChange2) = remember {
             mutableStateOf(true)
         }
 
-        //根据子CheckBox的状态来设置
+        //根据子CheckBox的状态来设置TriStateCheckbox的状态
+        val parentState = remember(key1 = state, key2 = state2) {
+            if (state && state2) ToggleableState.On  //中间打钩状态
+            else if (!state && !state2) ToggleableState.Off  //不选中状态
+            else ToggleableState.Indeterminate  //中间是横杠状态
+        }
+
+        //TriStateCheckbox可以为从属的复选框设置状态
+        val onParentClick = {
+            val s = parentState != ToggleableState.On
+            onStateChange(s)
+            onStateChange2(s)
+        }
+
+        TriStateCheckbox(
+            state = parentState,
+            onClick = onParentClick,
+            colors = CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colors.primary
+            )
+        )
+
+        Column(
+            modifier = Modifier.padding(0.dp, 50.dp, 0.dp, 0.dp)
+        ) {
+            Checkbox(checked = state, onCheckedChange = onStateChange)
+            Checkbox(checked = state2, onCheckedChange = onStateChange2)
+        }
     }
+
+    @Composable
+    fun SwitchDemo() {
+        val checkState = remember {
+            mutableStateOf(true)
+        }
+        Switch(
+            checked = checkState.value,
+            onCheckedChange = {checkState.value = it}
+        )
+    }
+    @Composable
+    fun textFieldStateHasTextShow(){
+        var value by remember {//这里就是对TextField中展示的文字进行状态保存的操作
+            mutableStateOf("")
+        }
+        Box(modifier = Modifier.fillMaxSize(1f),contentAlignment = Alignment.Center) {
+            OutlinedTextField(
+                value = value,
+                onValueChange = {
+                    value=it//每次输入内容的时候，都回调这个更新状态，从而刷新重组ui
+                },
+                label = { Text("Name") }
+            )
+        }
+    }
+
 
 }
 
