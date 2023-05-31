@@ -1,5 +1,6 @@
 package com.example.compose
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Configuration
 import android.media.MediaRouter.UserRouteInfo
@@ -10,6 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -81,7 +83,7 @@ class MainActivity : ComponentActivity() {
 //                        .size(100.dp)
 //                        .clip(CircleShape))
 //            }
-            DialogDemo()
+            RowDemo()
         }
     }
 
@@ -798,5 +800,163 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    @Composable
+    fun DialogSample() {
+        val openDialog = remember {
+            mutableStateOf(true)
+        }
+        val dialogWidth = 200.dp
+        val dialogHeight = 50.dp
+
+        if (openDialog.value) {
+            Dialog(
+                //当我们点击Dialog以外区域，修改openDialog状态为false
+                //触发DialogSample的重组
+                //此时Dialog无法被执行，对话框消失
+                onDismissRequest = {
+                    openDialog.value = false
+                }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(dialogWidth, dialogHeight)
+                        .background(Color.White)
+                )
+            }
+        }
+    }
+
+    @Composable
+    fun AlertDialogSample() {
+        val openDialog = remember {
+            mutableStateOf(true)
+        }
+
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = { openDialog.value = false },
+                title = {
+                    Text(text = "开启位置服务")
+                },
+                text = {
+                    Text(text = "这将意味着，我们会将您提供精准的位置服务，并且您将接受关于您订阅的位置信息")
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog.value = false
+                            //其他需要执行的业务需求
+                        }
+                    ) {
+                        Text(text = "同意")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog.value = false
+                        }
+                    ) {
+                        Text(text = "取消")
+                    }
+                }
+            )
+        }
+    }
+
+    @Composable
+    fun ProgressDemo() {
+        //创建一个进度值
+        var progress by remember {
+            mutableStateOf(0.1f)
+        }
+
+        //创建一个动画，根据progress变量
+        val animatedProgress by animateFloatAsState(
+            targetValue = progress,
+            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        )
+
+        Column {
+            LinearProgressIndicator(progress = animatedProgress)
+
+            //圆形进度条指示器
+            Spacer(modifier = Modifier.requiredHeight(30.dp))
+
+            OutlinedButton(
+                onClick = {
+                    if (progress < 1f) progress += 0.1f
+                }
+            ) {
+                Text(text = "增加高度")
+            }
+        }
+    }
+
+    @Composable
+    fun ColumnDemo() {
+        Column(
+            modifier = Modifier
+                .border(1.dp, Color.Black)
+                .size(150.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Hello , World",
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Text(text = "Jetpack Compose")
+        }
+    }
+
+    @Composable
+    fun RowDemo() {
+        Surface(
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                //设置Surface组件的外边距
+                .padding(horizontal = 12.dp, vertical = 12.dp)
+                .fillMaxWidth(),
+            elevation = 10.dp
+        ) {
+
+            Column(
+                modifier = Modifier
+                    //里面内容的外边距
+                    .padding(12.dp)
+            ) {
+
+                Text(
+                    text = "Jetpack Compose是什么？",
+                    style = MaterialTheme.typography.h6
+                )
+
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
+                Text(
+                    text = "Jetpack Compose 是用于构建原生Android界面的新工具包，它可简化并加快Android上的界面开发，使用更少的代码、强大的工具和直观Kotlin API,让应用生动而精彩。"
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(imageVector = Icons.Filled.Favorite , contentDescription = null , tint = Color.Red)
+                    }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(imageVector = Icons.Filled.Call, contentDescription = null)
+                    }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(imageVector = Icons.Filled.Share, contentDescription = null )
+                    }
+                }
+            }
+        }
+    }
+
 }
+
 
