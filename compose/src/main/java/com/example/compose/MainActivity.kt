@@ -37,6 +37,7 @@ import com.example.compose.ui.theme.SampleData
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -53,6 +54,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +81,7 @@ class MainActivity : ComponentActivity() {
 //                        .size(100.dp)
 //                        .clip(CircleShape))
 //            }
-            SwitchDemo()
+            DialogDemo()
         }
     }
 
@@ -739,19 +742,20 @@ class MainActivity : ComponentActivity() {
         }
         Switch(
             checked = checkState.value,
-            onCheckedChange = {checkState.value = it}
+            onCheckedChange = { checkState.value = it }
         )
     }
+
     @Composable
-    fun textFieldStateHasTextShow(){
+    fun textFieldStateHasTextShow() {
         var value by remember {//这里就是对TextField中展示的文字进行状态保存的操作
             mutableStateOf("")
         }
-        Box(modifier = Modifier.fillMaxSize(1f),contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.fillMaxSize(1f), contentAlignment = Alignment.Center) {
             OutlinedTextField(
                 value = value,
                 onValueChange = {
-                    value=it//每次输入内容的时候，都回调这个更新状态，从而刷新重组ui
+                    value = it//每次输入内容的时候，都回调这个更新状态，从而刷新重组ui
                 },
                 label = { Text("Name") }
             )
@@ -759,5 +763,40 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    @Composable
+    fun SliderDemo() {
+        var sliderPosition by remember {
+            mutableStateOf(0f)
+        }
+
+        Text(text = "%.1f".format(sliderPosition * 100) + "%")
+        Slider(
+            value = sliderPosition,
+            onValueChange = {
+                sliderPosition = it
+            }
+        )
+    }
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    @Composable
+    fun DialogDemo() {
+        Dialog(
+            onDismissRequest = { },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+                dismissOnClickOutside = true
+            )
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp),
+                color = Color.Gray
+            ) {
+                Text(text = "Hello World")
+            }
+        }
+    }
 }
 
