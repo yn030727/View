@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -58,6 +59,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.constraintlayout.compose.ConstraintLayout
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +85,7 @@ class MainActivity : ComponentActivity() {
 //                        .size(100.dp)
 //                        .clip(CircleShape))
 //            }
-            RowDemo()
+            SpacerDemo()
         }
     }
 
@@ -944,16 +946,105 @@ class MainActivity : ComponentActivity() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Filled.Favorite , contentDescription = null , tint = Color.Red)
+                        Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = null,
+                            tint = Color.Red
+                        )
                     }
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Filled.Call, contentDescription = null)
                     }
                     IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Filled.Share, contentDescription = null )
+                        Icon(imageVector = Icons.Filled.Share, contentDescription = null)
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    fun BoxDemo() {
+        Box {
+            Box(
+                modifier = Modifier
+                    .size(150.dp)
+                    .background(Color.Green)
+            )
+            Box(
+                modifier = Modifier
+                    .size(80.dp)
+                    .background(Color.Red)
+            )
+            Text(text = "世界")
+        }
+    }
+
+    @Composable
+    fun SurfaceDemo() {
+        Surface(
+            shape = RoundedCornerShape(8.dp), 
+            elevation = 10.dp,
+            modifier = Modifier
+                .width(300.dp)
+                .height(100.dp)
+        ) {
+            
+            Row(
+                modifier = Modifier.clickable { }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ning),
+                    contentDescription = null,
+                    modifier = Modifier.size(100.dp),
+                    contentScale = ContentScale.Crop
+                )
+                
+                Spacer(modifier = Modifier.padding(horizontal = 12.dp))
+                
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Liratie" , 
+                        style = MaterialTheme.typography.h6
+                    )
+                    Spacer(modifier = Modifier.padding(vertical = 8.dp))
+                    Text(text = "礼谙")
+                }
+            }
+            
+        }
+    }
+
+    @Composable
+    fun SpacerDemo(){
+        Row {
+           Box(
+               Modifier
+                   .size(100.dp)
+                   .background(Color.Red))
+
+           Spacer(modifier = Modifier.width(20.dp))
+
+           Box(
+               Modifier
+                   .size(100.dp)
+                   .background(Color.Magenta))
+
+           Spacer(modifier = Modifier.weight(1f))
+
+           Box(modifier = Modifier
+               .size(100.dp)
+               .background(Color.Black))
+        }
+    }
+    
+    @Composable
+    fun ConstraintLayoutDemo(){
+        ConstraintLayout() {
+            
         }
     }
 
