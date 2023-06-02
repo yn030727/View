@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/app/handler1" />
             <option value="$PROJECT_DIR$/bitmap" />
             <option value="$PROJECT_DIR$/compose" />
+            <option value="$PROJECT_DIR$/compose2" />
             <option value="$PROJECT_DIR$/drawable" />
             <option value="$PROJECT_DIR$/eventbus" />
             <option value="$PROJECT_DIR$/httpurlconnection" />
