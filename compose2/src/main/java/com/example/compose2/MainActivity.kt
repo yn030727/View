@@ -4,16 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CreateRefDemo2()
+            GuidelineDemo()
         }
     }
 
@@ -105,5 +109,65 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun ConstraintBarrierDemo(){
+        ConstraintLayout() {
+            val (usernameTextRef , passwordTextRef , usernameInputRef , passwordInputRef , dividerRef) = remember {
+                createRefs()
+            }
+            //使用createEndBarrier创建一条结尾分界线
+            //此时分界线位置位于两个文本中较长文本的结尾处
+            var barrier = createEndBarrier(usernameTextRef , passwordTextRef)
+
+            //接下来设置输入框的约束信息
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .constrainAs(usernameInputRef){
+                        start.linkTo(barrier , 10.dp) //指定起始位置
+                        top.linkTo(usernameTextRef.top)
+                        bottom.linkTo(usernameTextRef.bottom)
+                        height = Dimension.fillToConstraints
+                    }
+            )
+        }
+    }
+
+
+    @Composable
+    fun GuidelineDemo(){
+        ConstraintLayout() {
+            val guideline = createGuidelineFromTop(0.2f)
+            val (userPortraitBackgroundRef , userPortraitImgRef) = remember {
+                createRefs()
+            }
+
+            Box(modifier = Modifier
+                .constrainAs(userPortraitBackgroundRef) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(guideline)
+                    height = Dimension.fillToConstraints
+                    width = Dimension.matchParent
+                }
+                .background(Color(0xFF1E9FFF))
+            )
+
+            Image(
+                painter = painterResource(id = R.drawable.ning),
+                contentDescription = null ,
+                modifier = Modifier
+                    .constrainAs(userPortraitImgRef) {
+                        top.linkTo(guideline)
+                        bottom.linkTo(guideline)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+                    .size(100.dp)
+                    .clip(CircleShape)
+                    .border(width = 2.dp, color = Color(0xFF5FB878), shape = CircleShape)
+            )
+        }
+    }
 
 }
