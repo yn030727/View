@@ -13,6 +13,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.compose2.ui.theme.ViewTheme
@@ -167,6 +169,17 @@ class MainActivity : ComponentActivity() {
                     .clip(CircleShape)
                     .border(width = 2.dp, color = Color(0xFF5FB878), shape = CircleShape)
             )
+        }
+    }
+
+    @Composable
+    fun ChainDemo(){
+        ConstraintLayout{
+            val (quotesFirstLineRef , quotesSecondLineRef , quotesThirdLineRef , quotesForthLineRef) = remember {
+                createRefs()
+            }
+
+            createVerticalChain(quotesFirstLineRef , quotesSecondLineRef , quotesThirdLineRef , quotesForthLineRef , chainStyle = ChainStyle.Spread)
         }
     }
 
