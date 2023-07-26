@@ -30,14 +30,28 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.WebSocket;
+import okio.ByteString;
 
 public class MainActivity extends AppCompatActivity {
 
+    String mWbSocketUrl;
+    WebSocket mWebSocket;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mWbSocketUrl = "ws://echo.websocket.org";
+        OkHttpClient mClient = new OkHttpClient.Builder()
+                .pingInterval(10, TimeUnit.SECONDS)
+                .build();
+        Request request = new Request.Builder()
+                .url(mWbSocketUrl)
+                .build();
+        mWebSocket = mClient.newWebSocket(request , new WsListener());
+
 
         OkHttpEngine.getInstance(MainActivity.this).getAsyncHttp("http://www.baidu.com", new ResultCallback() {
             @Override
@@ -47,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String str) throws IOException {
-                Log.d("Ning" , "111111111111111111");
+                Log.d("Ning", "111111111111111111");
             }
         });
 
@@ -58,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         //okHttpClient.newCall().enqueue();
     }
 
-    public void okHttpRequest(){
+    public void okHttpRequest() {
         Request.Builder requestBuilder = new Request.Builder().url("https://www.baidu.com/");
-        requestBuilder.method("GET" , null);
+        requestBuilder.method("GET", null);
         Request request = requestBuilder.build();
 
         OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
@@ -75,22 +89,21 @@ public class MainActivity extends AppCompatActivity {
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Ning" , e.toString());
+                Log.d("Ning", e.toString());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
-                Log.d("Ning" , str);
+                Log.d("Ning", str);
             }
         });
     }
 
 
-
-    public void okHttpRequestWithPost(){
+    public void okHttpRequestWithPost() {
         RequestBody formBody = new FormBody.Builder()
-                .add("token" , "LwExDtUWhF3rH5ib")
+                .add("token", "LwExDtUWhF3rH5ib")
                 .build();
         Request request = new Request.Builder()
                 .url("https://v2.alapi.cn/api/qinghua")
@@ -107,14 +120,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
-                Log.d("Ning" , str);
+                Log.d("Ning", str);
             }
         });
     }
 
 
-
     public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown ; charset=utf-8");
+
     public void okHttpRequestWithFile() {
         String filepath = "";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -160,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void OkHttpWithImage(){
+    public void OkHttpWithImage() {
         String url = "http://www.baidu.com/img/bdlogo.png";
         Request request = new Request.Builder()
                 .url(url)
@@ -190,15 +203,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
-    public void sendMultipart(){
+
+    public void sendMultipart() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("title" , "Ning")
-                .addFormDataPart("image" , "Ning.jpg" , RequestBody.create(MEDIA_TYPE_PNG , new File("/sdcard/ning.jpg")))
+                .addFormDataPart("title", "Ning")
+                .addFormDataPart("image", "Ning.jpg", RequestBody.create(MEDIA_TYPE_PNG, new File("/sdcard/ning.jpg")))
                 .build();
         Request request = new Request.Builder()
-                .header("Authoriaztion" , "Client-ID " + "...")
+                .header("Authoriaztion", "Client-ID " + "...")
                 .url("http://www.baidu.com/img/bdlogo.png")
                 .post(requestBody)
                 .build();
@@ -211,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("Ning" , response.body().string());
+                Log.d("Ning", response.body().string());
             }
         });
 
@@ -219,10 +233,27 @@ public class MainActivity extends AppCompatActivity {
         File sdCache = getExternalCacheDir();
         int cacheSize = 10 * 1024 * 1024;
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(15 , TimeUnit.SECONDS)
-                .readTimeout(20 , TimeUnit.SECONDS)
-                .writeTimeout(20 , TimeUnit.SECONDS)
-                .cache(new Cache(sdCache.getAbsoluteFile() , cacheSize));
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .cache(new Cache(sdCache.getAbsoluteFile(), cacheSize));
         mOkHttpClient = builder.build();
+    }
+
+
+    public void send(final String message){
+        if(mWbSocketUrl != null){
+            mWebSocket.send(message);
+        }
+    }
+    public void send(final ByteString message){
+        if(mWebSocket != null){
+            mWebSocket.send(message);
+        }
+    }
+    public void disconnect(int code , String reason){
+        if(mWebSocket != null){
+            mWebSocket.close(code , reason);
+        }
     }
 }
