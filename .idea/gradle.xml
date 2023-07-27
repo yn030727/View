@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/2thread" />
+            <option value="$PROJECT_DIR$/androidreview" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app/handler1" />
             <option value="$PROJECT_DIR$/bitmap" />
