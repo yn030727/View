@@ -30,9 +30,10 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("Ning", "onStartCommand: ");
-        intent.putExtra("key" , "text");
-        intent.setAction("location.report");
-        sendBroadcast(intent);
-        return super.onStartCommand(intent, flags, startId);
+        Intent intent1 = new Intent();
+        intent1.putExtra("key" , "text");
+        intent1.setAction("location.report");
+        sendBroadcast(intent1);
+        return startId;
     }
 }

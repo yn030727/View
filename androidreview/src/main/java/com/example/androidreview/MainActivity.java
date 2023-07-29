@@ -2,15 +2,21 @@ package com.example.androidreview;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.concurrent.BlockingDeque;
 
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     LocationReceiver locationReceiver;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +58,21 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(locationReceiver , intentFilter);
         Log.d("Ning", "onReceive: 11111");
 
-        Intent intent = new Intent(this , MyService.class);
-        startService(intent);
+
+        TextView textView = findViewById(R.id.text1111);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this , MyService.class);
+                startService(intent);
+            }
+        });
+
+
+        getContentResolver().registerContentObserver(Uri.parse("content://com.example.providers.personprovider/person"),
+                true, new PersonObserver(new Handler()));
+
+
 //        bindService(intent , connection , BIND_AUTO_CREATE);
 //        unbindService(connection);
     }
@@ -68,9 +89,18 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String intentAction = intent.getAction();
             if(intentAction.equals("location.report")){
-                Log.d("Ning", "onReceive: 111111111");
+                Log.d("Ning", "onReceive: 1111111111111111");
             }
         }
     }
+    public class PersonObserver extends ContentObserver {
+        public PersonObserver(Handler handler) {
+            super(handler);
+        }
+        public void onChange(boolean selfChange) {
+            //TODO
+        }
+    }
+
 
 }
