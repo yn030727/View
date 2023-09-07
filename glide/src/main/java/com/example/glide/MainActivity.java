@@ -1,6 +1,11 @@
 package com.example.glide;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -20,6 +25,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerView1);
+        List<News> news = new ArrayList<>();
+
+        for(int i = 0 ; i < 50 ; i++){
+            News news1 = new News();
+            news1.title = "标题" + i;
+            news1.content = "内容" + i;
+            news.add(news1);
+        }
+
+        NewAdapter newAdapter = new NewAdapter(news);
+        mRecyclerView.setAdapter(newAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+        getLifecycle().addObserver(new DefaultLifecycleObserver() {
+            @Override
+            public void onCreate(@NonNull LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onCreate(owner);
+            }
+        });
+
 //        initFruits();
 //        FruitAdapter adapter = new FruitAdapter(MainActivity.this , R.layout.fruit_item , fruitList);
 //        ListView listView = findViewById(R.id.listView1);
@@ -33,16 +62,30 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        MyDatabase myDatabase = MyDatabase.getInstance(this);
-        String name = "Ning";
-        int age = 20;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                myDatabase.studentDao().insertStudent(new Student(name , age));
-            }
-        });
-        thread.start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        MyDatabase myDatabase = MyDatabase.getInstance(this);
+//        String name = "Ning";
+//        int age = 20;
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                myDatabase.studentDao().insertStudent(new Student(name , age));
+//            }
+//        });
+//        thread.start();
 //        myDatabase.studentDao().insertStudent(new Student(name , age));
 
     }
