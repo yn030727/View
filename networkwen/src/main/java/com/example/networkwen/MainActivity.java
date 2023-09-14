@@ -1,22 +1,22 @@
 package com.example.networkwen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,25 +34,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 MediaType mediaType = MediaType.parse("application/json");
-                RequestBody requestBody = RequestBody.create(mediaType , "{\"messages\":[{\"role\":\"user\",\"content\":\"Android中的SharedPreference是什么？给出代码使用\"}]}");
+                RequestBody requestBody = RequestBody.create(mediaType , "{\"messages\":[{\"role\":\"user\",\"content\":\"介绍下你自己\"}]}");
                 try {
-                    Request request = new Request.Builder()
-                            .url("https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + getAccessToken())
-                            .method("POST" , requestBody)
-                            .addHeader("Content-Type", "application/json")
+                    String access_token = getAccessToken();
+//                    Request request = new Request.Builder()
+//                            .url("https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + getAccessToken())
+//                            .method("POST" , requestBody)
+//                            .addHeader("Content-Type", "application/json")
+//                            .build();
+                    //创建Retrofit构建器
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://aip.baidubce.com/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(HTTP_CLIENT)
                             .build();
-                    HTTP_CLIENT.newCall(request).enqueue(new Callback() {
+                    //创建接口实例
+                    AndroidKnowledgeRequest_Interface request = retrofit.create(AndroidKnowledgeRequest_Interface.class);
+                    //封装请求
+                    Call<AndroidKnowledgeResponse> call = request.getCall(requestBody , getAccessToken());
+                    //发送网络请求
+                    call.enqueue(new Callback<AndroidKnowledgeResponse>() {
                         @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                            System.out.println("1111111111111111111111111" + "失败了");
+                        public void onResponse(Call<AndroidKnowledgeResponse> call, retrofit2.Response<AndroidKnowledgeResponse> response) {
+                            System.out.println(response.body().toString());
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            System.out.println(response.body().string());
+                        public void onFailure(Call<AndroidKnowledgeResponse> call, Throwable t) {
+                            t.printStackTrace();
+                            System.out.println("连接失败");
                         }
                     });
+
+
+
+//                    HTTP_CLIENT.newCall(request).enqueue(new Callback() {
+//                        @Override
+//                        public void onFailure(Call call, IOException e) {
+//                            e.printStackTrace();
+//                            System.out.println("1111111111111111111111111" + "失败了");
+//                        }
+//
+//                        @Override
+//                        public void onResponse(Call call, Response response) throws IOException {
+//                            System.out.println(response.body().string());
+//                        }
+//                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -76,4 +103,5 @@ public class MainActivity extends AppCompatActivity {
         Response response = HTTP_CLIENT.newCall(request).execute();
         return new JSONObject(response.body().string()).getString("access_token");
     }
+
 }
