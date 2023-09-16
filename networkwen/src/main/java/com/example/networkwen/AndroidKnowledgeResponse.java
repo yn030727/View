@@ -8,7 +8,7 @@ public class AndroidKnowledgeResponse {
     private long created;
     private String result;
     private boolean need_clear_history;
-    private List<Usage> usage;
+    private Usage usage;
 
     public class Usage{
         private int prompt_tokens;
@@ -60,7 +60,7 @@ public class AndroidKnowledgeResponse {
         this.result = result;
     }
 
-    public void setUsage(List<Usage> usage) {
+    public void setUsage(Usage usage) {
         this.usage = usage;
     }
 
@@ -68,7 +68,7 @@ public class AndroidKnowledgeResponse {
         return id;
     }
 
-    public List<Usage> getUsage() {
+    public Usage getUsage() {
         return usage;
     }
 
@@ -83,4 +83,9 @@ public class AndroidKnowledgeResponse {
     public String getResult() {
         return result;
     }
+
+    public boolean getNeed_clear_history() {
+        return need_clear_history;
+    }
+
 }

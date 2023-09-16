@@ -1,18 +1,23 @@
 package com.example.networkwen;
 
 import android.os.Bundle;
+import android.os.Message;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -30,11 +35,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                try {
+                    Log.i("Ning", message);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient()
+                .newBuilder()
+                .connectTimeout(60000, TimeUnit.MILLISECONDS)
+                .readTimeout(60000 , TimeUnit.MILLISECONDS)
+                .addInterceptor(interceptor)
+                .build();
+
         Runnable mt = new Runnable() {
             @Override
             public void run() {
                 MediaType mediaType = MediaType.parse("application/json");
-                RequestBody requestBody = RequestBody.create(mediaType , "{\"messages\":[{\"role\":\"user\",\"content\":\"介绍下你自己\"}]}");
+                RequestBody requestBody = RequestBody.create(mediaType , "{\"messages\":[{\"role\":\"user\",\"content\":\"美国的首都是什么\"}]}");
                 try {
                     String access_token = getAccessToken();
 //                    Request request = new Request.Builder()
@@ -46,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("https://aip.baidubce.com/")
                             .addConverterFactory(GsonConverterFactory.create())
-                            .client(HTTP_CLIENT)
+                            .client(client)
                             .build();
                     //创建接口实例
                     AndroidKnowledgeRequest_Interface request = retrofit.create(AndroidKnowledgeRequest_Interface.class);
@@ -56,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     call.enqueue(new Callback<AndroidKnowledgeResponse>() {
                         @Override
                         public void onResponse(Call<AndroidKnowledgeResponse> call, retrofit2.Response<AndroidKnowledgeResponse> response) {
-                            System.out.println(response.body().toString());
+                            System.out.println(response.body().getResult());
                         }
 
                         @Override
@@ -102,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         Response response = HTTP_CLIENT.newCall(request).execute();
         return new JSONObject(response.body().string()).getString("access_token");
+
     }
+
+
 
 }
